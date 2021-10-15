@@ -6,7 +6,7 @@ namespace epam_task_1.Figures
 {
     class King : Figure
     {
-        private bool IsFirstMotion { get; set; }
+        public bool IsFirstMotion { get; set; }
 
         public King(string name, string color, bool isFirstMotion)
             : base(name, color)

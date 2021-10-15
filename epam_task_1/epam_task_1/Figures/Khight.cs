@@ -4,7 +4,10 @@ using System.Text;
 
 namespace epam_task_1.Figures
 {
-    class Khight
+    class Khight : Figure
     {
+        public Khight(string name, string color)
+            : base (name, color)
+        { }
     }
 }

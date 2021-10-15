@@ -4,7 +4,13 @@ using System.Text;
 
 namespace epam_task_1.Enums
 {
-    class NameEnum
+    enum NameEnum
     {
+        Pawn,
+        Rook,
+        Knight,
+        Bishop,
+        Queen,
+        King
     }
 }

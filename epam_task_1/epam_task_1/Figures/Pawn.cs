@@ -6,13 +6,12 @@ namespace epam_task_1.Figures
 {
     class Pawn : Figure
     {
-        private bool IsFirtsMotion { get; set; }
-        private bool IsEndOfField { get; set; }
-        public Pawn(string name, string color, bool isFirstMotion, bool isEndOfField)
+        public bool IsFirtsMotion { get; set; }
+
+        public Pawn(string name, string color, bool isFirstMotion)
             : base(name, color)
         {
-            IsFirtsMotion = false;
-            IsEndOfField = false;
+            IsFirtsMotion = isFirstMotion;
         }
     }
 }
