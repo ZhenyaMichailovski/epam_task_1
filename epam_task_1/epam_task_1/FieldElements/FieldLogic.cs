@@ -6,13 +6,12 @@ using System.Text;
 
 namespace epam_task_1.FieldElements
 {
-    class FieldLogic
+    public class FieldLogic
     {
-        private Field field = new Field();
-
-
-        public void SetPawnInNewPosition(int nowRow, int nowColum, int newRow, int newColum)
+        public void SetPawnInNewPosition(Field field, int nowRow, int nowColum, int newRow, int newColum)
         {
+            if (!(field[nowRow, nowColum] is Pawn))
+                throw new Exception("Эта фигура не является пешкой");
             if (nowColum == newColum)
             {
                 if (Math.Abs(nowRow - newRow) == 1)
@@ -65,11 +64,13 @@ namespace epam_task_1.FieldElements
             
         }
 
-        public void SetRookInNewPosition(int nowRow, int nowColum, int newRow, int newColum)
+        public void SetRookInNewPosition(Field field, int nowRow, int nowColum, int newRow, int newColum)
         {
-            if(nowRow == newRow)
+            if (!(field[nowRow, nowColum] is Rook))
+                throw new Exception("Эта фигура не является ладьёй");
+            if (nowRow == newRow)
             {
-                if(CheckingTheFiguresHorizontallyForRook(nowRow, nowColum, newRow, newColum))
+                if(CheckingTheFiguresHorizontallyForRook(field, nowRow, nowColum, newRow, newColum))
                 {
                     field[newRow, newColum] = new Rook(field[nowRow, nowColum].Name, field[nowRow, nowColum].Color, false);
                     field[nowRow, nowColum] = null;
@@ -77,7 +78,7 @@ namespace epam_task_1.FieldElements
             }
             else if(nowColum == newColum)
             {
-                if (CheckingTheFiguresVerticallyForRook(nowRow, nowColum, newRow, newColum))
+                if (CheckingTheFiguresVerticallyForRook(field, nowRow, nowColum, newRow, newColum))
                 {
                     field[newRow, newColum] = new Rook(field[nowRow, nowColum].Name, field[nowRow, nowColum].Color, false);
                     field[nowRow, nowColum] = null;
@@ -88,11 +89,13 @@ namespace epam_task_1.FieldElements
 
         }
 
-        public void SetBishopInNewPosition(int nowRow, int nowColum, int newRow, int newColum)
+        public void SetBishopInNewPosition(Field field, int nowRow, int nowColum, int newRow, int newColum)
         {
-            if(Math.Abs(nowRow - newRow) == Math.Abs(newColum - nowColum))
+            if (!(field[nowRow, nowColum] is Bishop))
+                throw new Exception("Эта фигура не является слоном");
+            if (Math.Abs(nowRow - newRow) == Math.Abs(newColum - nowColum))
             {
-                if(CheckingTheFiguresForBishop(nowRow, nowColum, newRow, newColum))
+                if(CheckingTheFiguresForBishop(field, nowRow, nowColum, newRow, newColum))
                 {
                     field[newRow, newColum] = new Bishop(field[nowRow, nowColum].Name, field[nowRow, nowColum].Color);
                     field[nowRow, nowColum] = null;
@@ -104,21 +107,28 @@ namespace epam_task_1.FieldElements
                 throw new Exception("Невозможно переставить фигуру на это место");
         }
 
-        public void SetKnightInNewPosition(int nowRow, int nowColum, int newRow, int newColum)
+        public void SetKnightInNewPosition(Field field, int nowRow, int nowColum, int newRow, int newColum)
         {
-            if((field[nowRow, nowColum].Color != field[newRow, newColum].Color) || field[newRow, newColum] == null)
-            {
-                field[newRow, newColum] = new Khight(field[nowRow, nowColum].Name, field[nowRow, nowColum].Color);
-                field[nowRow, nowColum] = null;
-            }
+            if (!(field[nowRow, nowColum] is Khight))
+                throw new Exception("Эта фигура не является конем");
+            if((Math.Abs(nowRow - newRow) == 2 && Math.Abs(nowColum - newColum) == 1) || (Math.Abs(nowRow - newRow) == 1 && Math.Abs(nowColum - newColum) == 2))
+                if ((field[newRow, newColum] == null || (field[nowRow, nowColum].Color != field[newRow, newColum].Color)))
+                {
+                    field[newRow, newColum] = new Khight(field[nowRow, nowColum].Name, field[nowRow, nowColum].Color);
+                    field[nowRow, nowColum] = null;
+                }
+                else
+                    throw new Exception("Невозможно переставить фигуру на это место");
             else
                 throw new Exception("Невозможно переставить фигуру на это место");
         }
-        public void SetQueenInNewPosition(int nowRow, int nowColum, int newRow, int newColum)
+        public void SetQueenInNewPosition(Field field, int nowRow, int nowColum, int newRow, int newColum)
         {
+            if (!(field[nowRow, nowColum] is Queen))
+                throw new Exception("Эта фигура не является королевой");
             if (nowRow == newRow)
             {
-                if (CheckingTheFiguresHorizontallyForRook(nowRow, nowColum, newRow, newColum))
+                if (CheckingTheFiguresHorizontallyForRook(field, nowRow, nowColum, newRow, newColum))
                 {
                     field[newRow, newColum] = new Queen(field[nowRow, nowColum].Name, field[nowRow, nowColum].Color);
                     field[nowRow, nowColum] = null;
@@ -128,7 +138,7 @@ namespace epam_task_1.FieldElements
             }
             else if (nowColum == newColum)
             {
-                if (CheckingTheFiguresVerticallyForRook(nowRow, nowColum, newRow, newColum))
+                if (CheckingTheFiguresVerticallyForRook(field, nowRow, nowColum, newRow, newColum))
                 {
                     field[newRow, newColum] = new Queen(field[nowRow, nowColum].Name, field[nowRow, nowColum].Color);
                     field[nowRow, nowColum] = null;
@@ -138,7 +148,7 @@ namespace epam_task_1.FieldElements
             }
             else if (Math.Abs(nowRow - newRow) == Math.Abs(newColum - nowColum))
             {
-                if (CheckingTheFiguresForBishop(nowRow, nowColum, newRow, newColum))
+                if (CheckingTheFiguresForBishop(field, nowRow, nowColum, newRow, newColum))
                 {
                     field[newRow, newColum] = new Queen(field[nowRow, nowColum].Name, field[nowRow, nowColum].Color);
                     field[nowRow, nowColum] = null;
@@ -150,9 +160,11 @@ namespace epam_task_1.FieldElements
                 throw new Exception("Невозможно переставить фигуру на это место");
         }
 
-        public void SetKingInNewPosition(int nowRow, int nowColum, int newRow, int newColum)
+        public void SetKingInNewPosition(Field field, int nowRow, int nowColum, int newRow, int newColum)
         {
-            if((field[nowRow, nowColum].Color != field[newRow, newColum].Color) || field[newRow, newColum] == null)
+            if (!(field[nowRow, nowColum] is King))
+                throw new Exception("Эта фигура не является королём");
+            if (field[newRow, newColum] == null || (field[nowRow, nowColum].Color != field[newRow, newColum].Color))
             {
                 if(nowColum == newColum && Math.Abs(nowRow - newRow) == 1)
                 {
@@ -176,7 +188,7 @@ namespace epam_task_1.FieldElements
                 throw new Exception("Невозможно переставить фигуру на это место");
         }
 
-        public void SetCastling(int nowRow, int nowColum, int newRow, int newColum)
+        public void SetCastling(Field field, int nowRow, int nowColum, int newRow, int newColum)
         {
             if (((Rook)field[newRow, newColum]).IsFirstMotion && ((King)field[nowRow, nowColum]).IsFirstMotion)
             {
@@ -203,11 +215,11 @@ namespace epam_task_1.FieldElements
             else
                 throw new Exception("Невозможно переставить фигуру на это место");
         }
-        private bool CheckingTheFiguresForBishop(int nowRow, int nowColum, int newRow, int newColum)
+        private bool CheckingTheFiguresForBishop(Field field, int nowRow, int nowColum, int newRow, int newColum)
         {
             if(newColum > nowColum && newRow < nowRow)
             {
-                for(int i = nowRow, j = nowColum; j < newColum; i--, j++)
+                for(int i = nowRow - 1, j = nowColum + 1; j < newColum; i--, j++)
                 {
                     if (field[i, j] != null)
                         return false;
@@ -215,7 +227,7 @@ namespace epam_task_1.FieldElements
             }
             else if(newColum < nowColum && newRow < nowRow)
             {
-                for (int i = nowRow, j = nowColum; j > newColum; i--, j--)
+                for (int i = nowRow - 1, j = nowColum - 1; j > newColum; i--, j--)
                 {
                     if (field[i, j] != null)
                         return false;
@@ -223,7 +235,7 @@ namespace epam_task_1.FieldElements
             }
             else if (newColum < nowColum && newRow > nowRow)
             {
-                for (int i = nowRow, j = nowColum; i > newRow; i++, j--)
+                for (int i = nowRow + 1, j = nowColum - 1; i > newRow; i++, j--)
                 {
                     if (field[i, j] != null)
                         return false;
@@ -231,55 +243,55 @@ namespace epam_task_1.FieldElements
             }
             else if(newColum > nowColum && newRow > nowRow)
             {
-                for (int i = nowRow, j = nowColum; i > newRow; i++, j++)
+                for (int i = nowRow + 1, j = nowColum + 1; i > newRow; i++, j++)
                 {
                     if (field[i, j] != null)
                         return false;
                 }
             }
-            return ((field[nowRow, nowColum].Color != field[newRow, newColum].Color) || field[newRow, newColum] == null);
+            return ((field[newRow, newColum] == null || field[nowRow, nowColum].Color != field[newRow, newColum].Color));
 
         }
-        private bool CheckingTheFiguresVerticallyForRook(int nowRow, int nowColum, int newRow, int newColum)
+        private bool CheckingTheFiguresVerticallyForRook(Field field, int nowRow, int nowColum, int newRow, int newColum)
         {
             if (nowRow < newRow)
             {
-                for (int i = nowRow; i < nowRow; i++)
+                for (int i = nowRow + 1; i < newRow; i++)
                 {
                     if (field[i, nowColum] != null)
                         return false;
                 }
-                return ((field[nowRow, nowColum].Color != field[newRow, newColum].Color) || field[newRow, newColum] == null);
+                return ((field[newRow, newColum] == null || field[nowRow, nowColum].Color != field[newRow, newColum].Color));
             }
             else
             {
-                for (int i = nowRow; i < nowRow; i--)
+                for (int i = nowRow - 1; i < newRow; i--)
                 {
                     if (field[i, nowColum] != null)
                         return false;
                 }
-                return ((field[nowRow, nowColum].Color != field[newRow, newColum].Color) || field[newRow, newColum] == null);
+                return ((field[newRow, newColum] == null || field[nowRow, nowColum].Color != field[newRow, newColum].Color));
             }
         }
-        private bool CheckingTheFiguresHorizontallyForRook(int nowRow, int nowColum, int newRow, int newColum)
+        private bool CheckingTheFiguresHorizontallyForRook(Field field, int nowRow, int nowColum, int newRow, int newColum)
         {
             if(nowColum < newColum)
             {
-                for(int i = nowColum; i < newColum; i++)
+                for(int i = nowColum + 1; i < newColum; i++)
                 {
                     if (field[nowRow, i] != null)
                         return false;
                 }
-                return ((field[nowRow, nowColum].Color != field[newRow, newColum].Color) || field[newRow, newColum] == null);
+                return ((field[newRow, newColum] == null || field[nowRow, nowColum].Color != field[newRow, newColum].Color));
             }
             else
             {
-                for(int i = nowColum; i < newColum; i--)
+                for(int i = nowColum - 1; i < newColum; i--)
                 {
                     if (field[nowRow, i] != null)
                         return false;
                 }
-                return ((field[nowRow, nowColum].Color != field[newRow, newColum].Color) || field[newRow, newColum] == null);
+                return ((field[newRow, newColum] == null || field[nowRow, nowColum].Color != field[newRow, newColum].Color));
             }
         }
     }

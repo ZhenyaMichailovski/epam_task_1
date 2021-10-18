@@ -4,7 +4,7 @@ using System.Text;
 
 namespace epam_task_1.Figures
 {
-    class King : Figure
+    public class King : Figure
     {
         public bool IsFirstMotion { get; set; }
 

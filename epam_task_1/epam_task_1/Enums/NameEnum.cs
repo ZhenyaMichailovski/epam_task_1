@@ -4,7 +4,7 @@ using System.Text;
 
 namespace epam_task_1.Enums
 {
-    enum NameEnum
+    public enum NameEnum
     {
         Pawn,
         Rook,

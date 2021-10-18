@@ -4,7 +4,7 @@ using System.Text;
 
 namespace epam_task_1.Figures
 {
-    class Pawn : Figure
+    public class Pawn : Figure
     {
         public bool IsFirtsMotion { get; set; }
 

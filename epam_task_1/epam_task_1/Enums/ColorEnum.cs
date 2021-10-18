@@ -4,7 +4,7 @@ using System.Text;
 
 namespace epam_task_1.Enums
 {
-    enum ColorEnum
+    public enum ColorEnum
     {
         Black,
         White,

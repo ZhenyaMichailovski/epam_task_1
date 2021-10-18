@@ -4,7 +4,7 @@ using System.Text;
 
 namespace epam_task_1.Figures
 {
-    class Figure
+    public class Figure
     {
         public string Name { get; set; }
         public string Color { get; set; }
